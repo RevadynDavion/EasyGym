@@ -40,7 +40,6 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.stats.StatsType;
 import com.pixelmonmod.pixelmon.enums.EnumGrowth;
 import com.pixelmonmod.pixelmon.enums.EnumNature;
 import com.pixelmonmod.pixelmon.enums.EnumSpecies;
-import com.pixelmonmod.pixelmon.enums.forms.IEnumForm;
 import com.pixelmonmod.pixelmon.storage.PlayerPartyStorage;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -231,7 +230,15 @@ public class GymTeam implements CommandExecutor {
 	        		List<String> moveLines = findAll(s, "[\\n\\r].*- \\s*([^\\n\\r]*)");
 	        		List<String> moves = new ArrayList<String>();
 	        		for (String moveLine : moveLines) {
-	        			moves.add(moveLine.substring(3));
+	        			String moveStr = moveLine.substring(3);
+	        			String[] moveStrExploded = moveStr.split(" ");
+	        			if (moveStrExploded.length >= 2) {
+	        				if ((moveStrExploded[0].toLowerCase() == "hidden") && (moveStrExploded[0].toLowerCase() == "power")) {
+	        					moves.add("Hidden Power");
+	        					continue;
+	        				}
+	        			}
+	        			moves.add(moveStr.trim());
 	        		}
 	        		
 	        		
@@ -423,15 +430,19 @@ public class GymTeam implements CommandExecutor {
 	        	
 	        	
 	        	PlayerPartyStorage party = Pixelmon.storageManager.getParty((EntityPlayerMP) player);
+	        	
 	        	Pokemon[] partyPokemon = party.getAll();
-	        	for (Integer i = 0; i < partyPokemon.length; i++) {
-	        		Pokemon pokemon = partyPokemon[i];
+	        	for (Pokemon pokemon : partyPokemon) {
 	        		if (!(pokemon == null)) {
 	        			Pixelmon.storageManager.getPCForPlayer((EntityPlayerMP) player).add(pokemon);
-			        	party.set(i, null);
 	        			src.sendMessage(Text.of(TextColors.GRAY, pokemon.getSpecies().name + " has been moved to your PC"));
 	        		}
 		        }
+	        	
+	        	int[] slots = {0, 1, 2, 3, 4, 5};
+        		for (int slot : slots) {
+        			party.set(slot, null);
+        		}
 	        	
 	        	
 	        	JSONArray teamJson = new JSONArray(content);
@@ -480,7 +491,8 @@ public class GymTeam implements CommandExecutor {
 	        		for (int j = 0; j < moveJson.length(); j++) {
 	        			String atkStr = moveJson.getString(j).trim();
 	        			if (Attack.hasAttack(atkStr)) {
-	        				Attack atk = new Attack(moveJson.getString(j));
+	        				Attack atk = null;
+	        				atk = new Attack(atkStr);
 		        			moveset.set(j, atk);
 	        			} else {
 	        				src.sendMessage(Text.of(TextColors.RED, atkStr + " is not a valid move name"));
@@ -511,11 +523,7 @@ public class GymTeam implements CommandExecutor {
 	        		
 	        		pokemon.getStats().setLevelStats(pokemon.getNature(), pokemon.getBaseStats(), 100);
 	        		pokemon.setHealthPercentage(100);
-	        		try {
-	        			party.set(i, pokemon);
-	        		} catch (Exception e) {
-	        			src.sendMessage(Text.of(TextColors.RED, "Move invalid"));
-	        		}
+	        		party.set(i, pokemon);
 	        	}
 	        	
         	} else {

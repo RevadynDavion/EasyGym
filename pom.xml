@@ -77,7 +77,7 @@
 	    <artifactId>forgesrc</artifactId>
 	    <version>1.0</version>
 	    <scope>system</scope>
-	    <systemPath>C:\Users\MJ Programming\Desktop\Eclipse Libraries\forgeSrc-1.12.2-14.23.5.2768.jar</systemPath>
+	    <systemPath>${user.home}\Desktop\Eclipse Libraries\forgeSrc-1.12.2-14.23.5.2768.jar</systemPath>
 	</dependency>
   	<dependency>
   		<groupId>net.minecraft</groupId>
