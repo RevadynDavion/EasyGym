@@ -1,0 +1,14 @@
+[
+    {
+        "modid": "easygym",
+        "name": "Easy Gym",
+        "version": "1.0",
+        "description": "Gyms for pixelmon",
+        "dependencies": [
+            "spongeapi@7.1.0"
+        ],
+        "requiredMods": [
+            "spongeapi@7.1.0"
+        ]
+    }
+]
