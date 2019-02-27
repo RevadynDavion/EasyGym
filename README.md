@@ -6,6 +6,10 @@ EasyGym is an unofficial sidemod for [Pixelmon Reforged](https://reforged.gg). I
 
 This plugin has not been tested fully. Improper team imports may crash the server when loaded. It is highly reccomended to test all team imports on a local test server before used in production. Please report any bugs that you find to this github so that they may be fixed.
 
+## Download
+
+[1.0](https://www24.zippyshare.com/v/RzBChUEy/file.html)
+
 # Usage
 
 ## GymTeam
