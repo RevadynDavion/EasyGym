@@ -31,7 +31,11 @@ Provides GUI for choosing teams. Also lists either all gyms or all teams in a gy
 Loads a team from a gym  
 
 `/gymteam clear`  
-DANGER: CLEARS ALL POKEMON FROM PARTY
+DANGER: CLEARS ALL POKEMON FROM PARTY  
+
+`/gymteam upload`  
+Uploads the user's party team to the gym
+
 
 ## Gyms
 

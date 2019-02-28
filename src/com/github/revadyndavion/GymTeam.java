@@ -63,6 +63,8 @@ public class GymTeam implements CommandExecutor {
     	src.sendMessage(Text.of(TextColors.WHITE, "  - Loads a team from a gym"));
     	src.sendMessage(Text.of(TextColors.AQUA,  "clear:  /gymteam clear"));
     	src.sendMessage(Text.of(TextColors.WHITE, "  - DANGER: CLEARS ALL POKEMON FROM PARTY"));
+    	src.sendMessage(Text.of(TextColors.AQUA,  "upload:  /gymteam upload gym teamname"));
+    	src.sendMessage(Text.of(TextColors.WHITE, "  - Uploads the user's party team to the gym"));
 	}
 	
 	private Map<String, String> parseFirstLine(String firstLine) {
@@ -322,6 +324,98 @@ public class GymTeam implements CommandExecutor {
            	 	return CommandResult.success();
         	}
         
+        } else if (mode.toLowerCase().equals("upload")) {
+        	if (!(src.hasPermission("easygym.actions.gymteam.upload"))) {
+        		src.sendMessage(Text.of(TextColors.RED, "You do not have permission for this"));
+        		return CommandResult.success();
+        	}
+        	
+        	if (!(src instanceof Player)) {
+        		src.sendMessage(Text.of(TextColors.RED, "You must be a player to execute this command"));
+        		return CommandResult.success();
+        	}
+        	Player player = (Player) src;
+        	
+        	String gym = "", name = "";
+        	try {
+        		gym = cmdArgs[0];
+            	name = String.join(" ", Arrays.copyOfRange(cmdArgs, 1, cmdArgs.length));
+        	} catch (Exception e) {
+        		sendHelp(src);
+        		return CommandResult.success();
+        	}
+        	
+        	
+        	Pokemon[] partyPokemon = Pixelmon.storageManager.getParty((EntityPlayerMP) player).getAll();
+        	JSONArray teamJson = new JSONArray();
+        	
+        	for (Pokemon pokemon : partyPokemon) {
+        		if (pokemon == null) {
+        			continue;
+        		}
+        		
+        		JSONObject pokeJson = new JSONObject();
+        		
+        		pokeJson.put("species", pokemon.getSpecies().name);
+        		pokeJson.put("happiness", pokemon.getFriendship());
+        		pokeJson.put("level", pokemon.getLevel());
+        		pokeJson.put("nickname", pokemon.getNickname());
+        		pokeJson.put("ability", pokemon.getAbility().getName());
+        		pokeJson.put("shiny", pokemon.isShiny());
+        		pokeJson.put("nature", pokemon.getNature().name());
+        		pokeJson.put("item", pokemon.getHeldItemAsItemHeld().getLocalizedName());
+
+        		pokeJson.put("gender", "");
+        		if (pokemon.getGender().equals(Gender.Female)) {
+        			pokeJson.put("gender", "F");
+        		} else if (pokemon.getGender().equals(Gender.Male)) {
+        			pokeJson.put("gender", "M");
+        		}
+        		
+        		Attack[] atks = pokemon.getMoveset().attacks;
+        		JSONArray moveset = new JSONArray();
+        		for (Attack atk : atks) {
+        			moveset.put(atk.toString());
+        		}
+        		pokeJson.put("moves", moveset);
+        		
+        		JSONObject evsJson = new JSONObject();
+        		EVStore evs = pokemon.getStats().evs;
+        		evsJson.put("Def", evs.defence);
+        		evsJson.put("SpA", evs.specialAttack);
+        		evsJson.put("SpD", evs.specialDefence);
+        		evsJson.put("HP", evs.hp);
+        		evsJson.put("Atk", evs.attack);
+        		evsJson.put("Spe", evs.speed);
+        		pokeJson.put("EVs", evsJson);
+        		
+        		JSONObject ivsJson = new JSONObject();
+        		IVStore ivs = pokemon.getStats().ivs;
+        		ivsJson.put("Def", ivs.defence);
+        		ivsJson.put("SpA", ivs.specialAttack);
+        		ivsJson.put("SpD", ivs.specialDefence);
+        		ivsJson.put("HP", ivs.hp);
+        		ivsJson.put("Atk", ivs.attack);
+        		ivsJson.put("Spe", ivs.speed);
+        		pokeJson.put("IVs", ivsJson);
+        		
+        		teamJson.put(pokeJson);
+        		
+        	}
+        	
+        	File file = new File("./config/easygym/" + gym.toUpperCase() + "/" + name.toUpperCase() + ".json");
+        	file.getParentFile().mkdirs();
+        	try {
+                 file.createNewFile();
+                 FileWriter writer = new FileWriter(file);
+                 writer.write(teamJson.toString(4));
+                 writer.close();
+                 src.sendMessage(Text.of(TextColors.GREEN, "GymTeam successfully uploaded"));
+             } catch (IOException e) {
+            	 src.sendMessage(Text.of(TextColors.RED, "Error while saving GymTeam file"));
+            	 return CommandResult.success();
+             }
+        	
         } else if (mode.toLowerCase().equals("delete")) {
         	if (!(src.hasPermission("easygym.actions.gymteam.delete"))) {
         		src.sendMessage(Text.of(TextColors.RED, "You do not have permission for this"));
