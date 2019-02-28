@@ -8,7 +8,7 @@ This plugin has not been tested fully. Improper team imports may crash the serve
 
 ## Download
 
-[1.0](https://www24.zippyshare.com/v/RzBChUEy/file.html)
+[1.1](https://www113.zippyshare.com/v/BZuEN1WP/file.html)
 
 # Usage
 
