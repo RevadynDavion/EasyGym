@@ -8,7 +8,7 @@ This plugin has not been tested fully. Improper team imports may crash the serve
 
 ## Download
 
-[1.1](https://www113.zippyshare.com/v/BZuEN1WP/file.html)
+[1.1](https://www.dropbox.com/s/4jy909hizw2typ8/easygym-1.1.jar?dl=0)
 
 # Usage
 
