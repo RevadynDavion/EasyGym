@@ -42,7 +42,6 @@
                 <includes>
                   <include>brianbb:jpastebin</include>
                   <include>org.json:json</include>
-                  <include>com.github.codeHusky:HuskyUI-Plugin</include>
                 </includes>
               </artifactSet>
             </configuration>
@@ -140,6 +139,12 @@
       <groupId>net.pixelmon</groupId>
       <artifactId>reforged</artifactId>
       <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.codeHusky</groupId>
+      <artifactId>HuskyUI-Plugin</artifactId>
+      <version>v0.6.0-PRE2-HOTFIX2</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

@@ -55,7 +55,6 @@
             		<includes>
             			<include>brianbb:jpastebin</include>
             			<include>org.json:json</include>
-            			<include>com.github.codeHusky:HuskyUI-Plugin</include>
             		</includes>
             	</artifactSet>
             </configuration>
