@@ -9,6 +9,7 @@ This plugin has not been tested fully. Improper team imports may crash the serve
 ## Download
 
 [1.1](https://www.dropbox.com/s/4jy909hizw2typ8/easygym-1.1.jar?dl=0)
+[1.2](https://www.dropbox.com/s/tsa7qpe23hc4siv/easygym-1.2.jar?dl=0)
 
 # Usage
 
